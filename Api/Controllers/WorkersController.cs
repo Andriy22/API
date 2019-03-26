@@ -15,15 +15,18 @@ namespace Api.Controllers
     /// <summary>
     /// Api Workers controller
     /// </summary>
+    [RoutePrefix("API/Workers")]
     public class WorkersController : ApiController
     {
-        private DBase db = new DBase();
+        private readonly DBase db = new DBase();
 
         // GET: api/Workers
         /// <summary>
         /// GetAllWorkers
         /// </summary>
         /// <returns>All Workers</returns>
+        [HttpGet]
+        [Route("AllWorkersInfo")]
         public IQueryable<Worker> GetWorkers()
         {
             return db.Workers;
@@ -35,7 +38,10 @@ namespace Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Worker By Id</returns>
+     
+        [HttpGet]
         [ResponseType(typeof(Worker))]
+        [Route("GetWorkerById/{id}") ]
         public IHttpActionResult GetWorker(int id)
         {
             Worker worker = db.Workers.Find(id);
@@ -48,8 +54,10 @@ namespace Api.Controllers
         }
 
         // PUT: api/Workers/5
+        [HttpPut]
+        [Route("UpdateWorker/{id}")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutWorker(int id, Worker worker)
+        public IHttpActionResult PutWorker([FromUri]int id, [FromBody]Worker worker)
         {
             if (!ModelState.IsValid)
             {
@@ -83,6 +91,8 @@ namespace Api.Controllers
         }
 
         // POST: api/Workers
+        [HttpPost]
+        [Route("CreateWorker")]
         [ResponseType(typeof(Worker))]
         public IHttpActionResult PostWorker(Worker worker)
         {
@@ -99,6 +109,8 @@ namespace Api.Controllers
 
         // DELETE: api/Workers/5
         [ResponseType(typeof(Worker))]
+        [HttpDelete]
+        [Route("DeleteWorker/{id}")]
         public IHttpActionResult DeleteWorker(int id)
         {
             Worker worker = db.Workers.Find(id);
